@@ -1,26 +1,56 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+   padding: 0;
+   margin: 0;
+   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+      Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+   color: inherit;
+   text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+   margin: 0;
+   padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+*,
+*::before,
+*::after {
+   box-sizing: inherit;
 }
+
+html {
+   box-sizing: border-box;
+   font-size: 62.5%;
+}
+
+:root {
+   --color-white-primary: #f5f9ff;
+   --color-white-secondary: #d3e4f9;
+
+   --color-blue-primary: #112d4e;
+   --color-blue-secondary: #3f72af;
+   --color-blue-tertiary: #83b3ec;
+
+   --color-black-primary: #010b17;
+}
+
+body {
+   background-color: var(--color-white-primary);
+   color: var(--color-black-primary);
+   font-family: "Poppins", sans-serif;
+   line-height: 1.9;
+}
+
+// @media (prefers-color-scheme: dark) {
+//    html {
+//       color-scheme: dark;
+//    }
+//    body {
+//       color: white;
+//       background: black;
+//    }
+// }

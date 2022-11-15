@@ -1,0 +1,16 @@
+.header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin: 3rem 0;
+}
+.brand {
+   font-family: "Epilogue", sans-serif;
+   font-weight: 700;
+   font-size: 1.6rem;
+}
+.link {
+   font-size: 1.3rem;
+   margin-right: 10rem;
+   font-weight: 500;
+}

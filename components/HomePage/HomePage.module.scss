@@ -1,0 +1,27 @@
+.homePage {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin: 15rem 0;
+}
+.contentDiv {
+   width: 40%;
+}
+.heading {
+   color: var(--color-blue-primary);
+   font-size: 4rem;
+   font-family: "Epilogue", sans-serif;
+   font-weight: 800;
+   line-height: 1.2;
+}
+.subHeading {
+   color: var(--color-blue-secondary);
+   font-size: 1.4rem;
+   font-weight: 500;
+   margin-top: 2rem;
+   margin-bottom: 4rem;
+}
+.image {
+   width: 40%;
+   border-radius: 3rem;
+}
