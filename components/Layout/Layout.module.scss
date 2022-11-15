@@ -1,3 +1,9 @@
 .layout {
    margin: 0 20rem;
 }
+@media only screen and (min-width: 1600px) {
+   .layout {
+      margin: 0 auto;
+      width: 130rem;
+   }
+}
