@@ -12,7 +12,7 @@ const homePage = () => {
                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                laboris nisi ut aliquip ex ea commodo consequat
             </h2>
-            <Button text="Get started" link={"/"} />
+            <Button text="Get started" link={"/question/0"} />
          </div>
          <img src={heroImage.src} className={classes.image} alt="" />
       </section>
