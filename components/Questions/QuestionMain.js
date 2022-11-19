@@ -4,13 +4,18 @@ import Link from "next/link"
 import classes from "./QuestionsMain.module.scss"
 
 export default function QuestionMain(props) {
+    const [question, changeQuestions] = React.useState()
+    const [answerOptions, changeAnswerOptions] = React.useState()
     const randomNumber = Math.floor(Math.random() * 4)
 
-    function score(num) {
+    function score(buttonContent) {
+        console.log(buttonContent.replace(/\s/g,''))
+        console.log(question[props.questionNum].answer.replace(/\s/g,''))
         // Grab current score or create a new one
         let currentStorage = localStorage.getItem("score") ? JSON.parse(localStorage.getItem("score")) : []
 
-        if (num == randomNumber) {
+        // If the button clicked is the question answer
+        if (buttonContent.replace(/\s/g,'') == question[props.questionNum].answer.replace(/\s/g,'')) {
             // If the right button is clicked, change the current score to 1
             typeof currentStorage[props.questionNum] == "number" ? currentStorage[props.questionNum] = 1 : currentStorage.push(1)
         } else {
@@ -34,16 +39,31 @@ export default function QuestionMain(props) {
     }
 
 
+    React.useEffect(() => {
+        changeQuestions(localStorage.getItem("questions") ? JSON.parse(localStorage.getItem("questions")) : [])
+    }, [])
+
+
+    React.useEffect(() => {
+        if (props.questionNum && question) {
+            changeAnswerOptions(
+                question[props.questionNum].options.map((option, index) => {
+                    return (
+                        <button key={index} className={classes.multiSelectionButton} onClick={() => score(option)}>{option}</button>
+                    )
+                })
+            )
+        }
+    }, [props.questionNum, question])
+
+
     return (
         <>
-            { dummyData[props.questionNum] &&
+            { (props.questionNum && question) &&
             <main className={classes.questionMain}>
-                <p className={classes.questionMainQuestion}>{dummyData[props.questionNum].question}</p>
+                <p className={classes.questionMainQuestion}>{question[props.questionNum].question}</p>
                 <div className={classes.multiSelection}>
-                    <button className={classes.multiSelectionButton} onClick={() => score(0)}>{randomNumber == 0 ? dummyData[props.questionNum].answer : Math.floor(Math.random() * 100)}</button>
-                    <button className={classes.multiSelectionButton} onClick={() => score(1)}>{randomNumber == 1 ? dummyData[props.questionNum].answer : Math.floor(Math.random() * 100)}</button>
-                    <button className={classes.multiSelectionButton} onClick={() => score(2)}>{randomNumber == 2 ? dummyData[props.questionNum].answer : Math.floor(Math.random() * 100)}</button>
-                    <button className={classes.multiSelectionButton} onClick={() => score(3)}>{randomNumber == 3 ? dummyData[props.questionNum].answer : Math.floor(Math.random() * 100)}</button>
+                    {answerOptions}
                 </div>
                 <div className={classes.pageControlButtons}>
                     { parseInt(props.questionNum) == 0 ?

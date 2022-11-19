@@ -3,7 +3,12 @@ import classes from "./ResultsMain.module.scss"
 import Answer from "./Answer"
 
 export default function ResultsMain() {
+    const [question, changeQuestions] = React.useState()
     const [score, changeScore] = React.useState([])
+
+    React.useEffect(() => {
+        changeQuestions(localStorage.getItem("questions") ? JSON.parse(localStorage.getItem("questions")) : [])
+    }, [])
     
     React.useEffect(() => {
         if (localStorage.getItem("score")) {
@@ -17,6 +22,7 @@ export default function ResultsMain() {
             <Answer 
                 questionNum={index}
                 score={score[index]}
+                question={question[index]}
             />
         )
     })
