@@ -1,6 +1,6 @@
-import React from "react"
-import classes from "./ResultsMain.module.scss"
-import Answer from "./Answer"
+import React from "react";
+import classes from "./ResultsMain.module.scss";
+import Answer from "./Answer";
 
 export default function ResultsMain() {
     const [question, changeQuestions] = React.useState()

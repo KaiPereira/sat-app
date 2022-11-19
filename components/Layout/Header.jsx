@@ -15,7 +15,10 @@ const Header = () => {
             <Link className={classes.link} href="/question/0">
                Questions
             </Link>
-            <Button link="/results" text="Answers" />
+            <Link className={classes.link} href="/question/0">
+               Answers
+            </Link>
+            {/* <Button link="/results" text="Answers" /> */}
          </div>
       </nav>
    );
