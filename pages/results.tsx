@@ -1,10 +1,9 @@
-import React from "react"
-import ResultsMain from "../components/Results/ResultsMain"
+import ResultsComponent from '../components/Results/Results';
 
 export default function Results() {
-    return (
-        <>
-            <ResultsMain />
-        </>
-    )
+  return (
+    <>
+      <ResultsComponent />
+    </>
+  );
 }

@@ -1,17 +1,39 @@
-import React from "react"
-import { useRouter } from "next/router";
-import QuestionMain from "../../components/Questions/QuestionMain";
-import { Configuration, OpenAIApi } from "openai";
-const config = new Configuration({ apiKey: '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' });
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+
+import { Configuration, OpenAIApi } from 'openai';
+
+import QuestionComponent from '../../components/Questions';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+
+import type { Question, SetQuestionsFunction } from '../../types';
+
+const config = new Configuration({
+  apiKey: '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'
+});
 const openai = new OpenAIApi(config);
 
-export default function Question() {
-    const [questions, changeQuestions] = React.useState([])
-    const router = useRouter();
-    const query = router.query
-    const questionNum = query.questionNum;
+const QuestionPage = () => {
+  const [rawQuestions, setRawQuestions] = useLocalStorage<string>(
+    'questions',
+    '[]'
+  );
 
-    const prompt = `
+  const questions: Question[] = useMemo(
+    () => JSON.parse(rawQuestions),
+    [rawQuestions]
+  );
+  const setQuestions: SetQuestionsFunction = useMemo(
+    () => (questions: Question[]) => setRawQuestions(JSON.stringify(questions)),
+    [setRawQuestions]
+  );
+
+  const router = useRouter();
+
+  const query = router.query;
+  const questionNum = parseInt(query.questionNum as string);
+
+  const prompt = `
     Generate a SAT exam math question based on format below.
 
     Question: If t > 0 and t^2-4 = 0, what is the value of t?
@@ -22,41 +44,41 @@ export default function Question() {
     Generate another math question for SAT:
     `;
 
-    const generate = async (prompt: string) => {
-        
-        const completion = await openai.createCompletion({
-            model: "text-davinci-002",
-            prompt: prompt,
-            max_tokens: 200
-        });
+  const generate = async (prompt: string) => {
+    const completion = await openai.createCompletion({
+      model: 'text-davinci-002',
+      prompt: prompt,
+      max_tokens: 200
+    });
 
-        let text = completion.data.choices[0].text
+    let text = completion.data.choices[0].text;
+    let filteredText = text!.split('\n').filter(letter => letter !== '');
 
-        text = text.split("\n")
-        text = text.filter((letter) => letter !== "");
+    filteredText = filteredText.map(textItem => {
+      return textItem
+        .replace('Question:', ' ')
+        .replace('Answer:', ' ')
+        .replace('Options:', ' ')
+        .replace('Reasoning:', ' ');
+    });
 
-        text = text.map((textItem) => {
-            return textItem.replace("Question:", " ").replace("Answer:", " ").replace("Options:", " ").replace("Reasoning:", " ")
-        })
+    const question = filteredText[0];
+    const options = filteredText[1].split(',');
+    const answer = filteredText[2];
+    const reasoning = filteredText[3];
 
-        const question = text[0]
-        const options = text[1].split(",")
-        const answer = text[2]
-        const reasoning = text[3]
+    questions.push({ question, options, answer, reasoning });
 
-        let questions = localStorage.getItem("questions") ? JSON.parse(localStorage.getItem("questions")) : []
+    setQuestions(questions);
+  };
 
-        questions.push({question, options, answer, reasoning})
+  generate(prompt);
 
-        localStorage.setItem("questions", JSON.stringify(questions))
-    }
+  return (
+    <>
+      <QuestionComponent questionNum={questionNum} />
+    </>
+  );
+};
 
-    generate(prompt);
-
-
-    return (
-        <>
-            <QuestionMain questionNum={questionNum} />
-        </>
-    )
-}
+export default QuestionPage;
