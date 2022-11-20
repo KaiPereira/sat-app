@@ -99,6 +99,7 @@ video {
    font: inherit;
    vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -136,13 +137,14 @@ table {
    border-spacing: 0;
 }
 
-body * {
+body {
    box-sizing: border-box;
 }
 
 html {
    box-sizing: border-box;
    font-size: 62.5%;
+
    @media only screen and (max-width: 1300px) {
       font-size: 50%;
    }
@@ -168,13 +170,3 @@ body {
    font-family: "Poppins", sans-serif;
    line-height: 1.9;
 }
-
-// @media (prefers-color-scheme: dark) {
-//    html {
-//       color-scheme: dark;
-//    }
-//    body {
-//       color: white;
-//       background: black;
-//    }
-// }
