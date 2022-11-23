@@ -1,23 +1,31 @@
-import { Configuration, OpenAIApi } from "openai";
+import { Configuration, OpenAIApi } from 'openai';
 
 export class OpenAIWrapper {
-    public openai: OpenAIApi;
+  public openai: OpenAIApi;
 
-    constructor(apiKey: string) {
-        const configuration = new Configuration({
-            apiKey,
-        });
-
-        this.openai = new OpenAIApi(configuration);
+  constructor(apiKey: string) {
+    if (!apiKey) {
+      throw new Error(
+        'API key not provided. Please set the `OPENAI_API_KEY` environment variable.'
+      );
     }
 
-    public async generate(prompt: string, maxTokens: number) {
-        const response = await this.openai.createCompletion({
-            model: "text-davinci-002",
-            prompt,
-            max_tokens: maxTokens,
-        });
+    const configuration = new Configuration({
+      apiKey
+    });
 
-        return response.data.choices[0].text;
-    }
+    this.openai = new OpenAIApi(configuration);
+  }
+
+  public async generate(prompt: string, maxTokens: number) {
+    const response = await this.openai.createCompletion({
+      model: 'text-davinci-002',
+      prompt,
+      max_tokens: maxTokens
+    });
+
+    return response.data.choices[0].text;
+  }
 }
+
+export const openai = new OpenAIWrapper(process.env.OPENAI_API_KEY as string);
