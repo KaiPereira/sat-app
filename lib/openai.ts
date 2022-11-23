@@ -6,7 +6,7 @@ export class OpenAIWrapper {
   constructor(apiKey: string) {
     if (!apiKey) {
       throw new Error(
-        'API key not provided. Please set the `OPENAI_API_KEY` environment variable.'
+        'API key not provided. Please set the `NEXT_PUBLIC_OPENAI_API_KEY` environment variable.'
       );
     }
 
@@ -28,4 +28,4 @@ export class OpenAIWrapper {
   }
 }
 
-export const openai = new OpenAIWrapper(process.env.OPENAI_API_KEY as string);
+export const openai = new OpenAIWrapper(process.env.NEXT_PUBLIC_OPENAI_API_KEY as string);
